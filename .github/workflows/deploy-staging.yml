@@ -14,9 +14,9 @@ on:
 env:
   PROJECT_ID: 'windy-orb-218701'
   REGION: 'us-central1'
-  DOCKER_REPO: 'deploy'
-  SERVICE: 'deploy-staging'
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/555983195874/locations/global/workloadIdentityPools/github/providers/github-deploy-repo-provider'
+  DOCKER_REPO: 'deploydocus'
+  SERVICE: 'deploydocus'
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/555983195874/locations/global/workloadIdentityPools/deploydocus/providers/deploydocus-provider'
 
 jobs:
   build:
