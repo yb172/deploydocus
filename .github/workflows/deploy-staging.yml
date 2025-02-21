@@ -14,6 +14,7 @@ on:
 env:
   PROJECT_ID: 'windy-orb-218701'
   REGION: 'us-central1'
+  DOCKER_REPO: 'deploy'
   SERVICE: 'deploy-staging'
   WORKLOAD_IDENTITY_PROVIDER: 'projects/555983195874/locations/global/workloadIdentityPools/github/providers/github-deploy-repo-provider'
 
@@ -40,11 +41,16 @@ jobs:
           username: 'oauth2accesstoken'
           password: '${{ steps.auth.outputs.auth_token }}'
           registry: '${{ env.REGION }}-docker.pkg.dev'
-      - name: 'Build and Push Container'
+      - name: Generate version
+        id: generate-version
+        run: echo "version=staging-$(date +%Y-%m-%d)-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Generate image name
+        id: generate-image-name
+        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ steps.generate-version.outputs.version }}" >> $GITHUB_OUTPUT
+      - name: Build and Push Container
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
-          docker build --tag "${DOCKER_TAG}" --build-arg version=v$(date +%Y-%m-%d)-${{ github.sha }} .
-          docker push "${DOCKER_TAG}"
+          docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=$(date +%Y-%m-%d)-${{ github.sha }} ./
+          docker push "${{ steps.generate-image-name.outputs.image_name }}"
   
   deploy:
     needs: build
@@ -59,7 +65,7 @@ jobs:
         with:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}'
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ github.sha }}'
       # If required, use the Cloud Run URL output in later steps
       - name: 'Show output'
         run: |2-
