@@ -48,13 +48,13 @@ jobs:
         run: echo "github_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Generate version
         id: generate-version
-        run: echo "version=staging-$(date +%Y-%m-%d)-${{ steps.generate-github-sha.outputs.github-sha }}" >> $GITHUB_OUTPUT
+        run: echo "version=staging-$(date +%Y-%m-%d)-${{ steps.generate-github-sha.outputs.github_sha }}" >> $GITHUB_OUTPUT
       - name: Generate image name
         id: generate-image-name
         run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ steps.generate-version.outputs.version }}" >> $GITHUB_OUTPUT
       - name: Build and Push Container
         run: |-
-          docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=$(date +%Y-%m-%d)-${{ steps.generate-github-sha.outputs.github-sha }} ./
+          docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=$(date +%Y-%m-%d)-${{ steps.generate-github-sha.outputs.github_sha }} ./
           docker push "${{ steps.generate-image-name.outputs.image_name }}"
   
   deploy:
