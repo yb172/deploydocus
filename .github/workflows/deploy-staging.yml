@@ -34,22 +34,27 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2' # google-github-actions/auth@v2
         with:
+          token_format: 'access_token'
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: 'deploydocus-github@windy-orb-218701.iam.gserviceaccount.com'
       - name: 'Docker Auth'
         uses: 'docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567' # docker/login-action@v3
         with:
           username: 'oauth2accesstoken'
           password: '${{ steps.auth.outputs.auth_token }}'
           registry: '${{ env.REGION }}-docker.pkg.dev'
+      - name: Generate github sha
+        id: generate-github-sha
+        run: echo "github_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Generate version
         id: generate-version
-        run: echo "version=staging-$(date +%Y-%m-%d)-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "version=staging-$(date +%Y-%m-%d)-${{ steps.generate-github-sha.outputs.github-sha }}" >> $GITHUB_OUTPUT
       - name: Generate image name
         id: generate-image-name
         run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ steps.generate-version.outputs.version }}" >> $GITHUB_OUTPUT
       - name: Build and Push Container
         run: |-
-          docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=$(date +%Y-%m-%d)-${{ github.sha }} ./
+          docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=$(date +%Y-%m-%d)-${{ steps.generate-github-sha.outputs.github-sha }} ./
           docker push "${{ steps.generate-image-name.outputs.image_name }}"
   
   deploy:
