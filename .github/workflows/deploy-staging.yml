@@ -28,6 +28,9 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
+    outputs:  # Define job-level outputs
+      image_name: ${{ steps.generate-image-name.outputs.image_name }}
+
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v4'
@@ -74,11 +77,11 @@ jobs:
           service_account: '${{ env.SERVICE_ACCOUNT}}'
           token_format: 'access_token'
       - name: 'Deploy to Cloud Run'
-        uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
+        uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ github.sha }}'
+          image: '${{ needs.build.outputs.image_name }}'
       # If required, use the Cloud Run URL output in later steps
       - name: 'Show output'
         run: |2-
