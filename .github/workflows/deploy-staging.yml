@@ -37,7 +37,6 @@ jobs:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: 'deploydocus-github@windy-orb-218701.iam.gserviceaccount.com'
           token_format: 'access_token'
-          audience: 'sts.googleapis.com'
       - name: Debug JWT Token
         run: |-
           curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.googleapis.com"
