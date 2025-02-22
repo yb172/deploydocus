@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,7 +16,12 @@ func getVersion() string {
 	return Version
 }
 
-const port = 8081
+var port int
+
+func init() {
+	flag.IntVar(&port, "port", 8080, "Port to run the server on")
+	flag.Parse()
+}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
