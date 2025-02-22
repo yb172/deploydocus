@@ -37,8 +37,9 @@ jobs:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           # service_account: 'deploydocus-github@windy-orb-218701.iam.gserviceaccount.com'
       - name: Debug JWT Token
-        run: |
+        run: |-
           curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.googleapis.com"
+          echo "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" | awk -F. '{print $2}' | base64 -d | jq .
       - name: 'Docker Auth'
         uses: 'docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567' # docker/login-action@v3
         with:
