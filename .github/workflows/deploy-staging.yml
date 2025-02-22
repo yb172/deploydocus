@@ -17,6 +17,7 @@ env:
   DOCKER_REPO: 'deploydocus'
   SERVICE: 'deploydocus'
   WORKLOAD_IDENTITY_PROVIDER: 'projects/555983195874/locations/global/workloadIdentityPools/deploydocus/providers/deploydocus-provider'
+  SERVICE_ACCOUNT: 'deploydocus-github@windy-orb-218701.iam.gserviceaccount.com'
 
 jobs:
   build:
@@ -29,20 +30,16 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332' # actions/checkout@v4
+        uses: 'actions/checkout@v4'
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: 'deploydocus-github@windy-orb-218701.iam.gserviceaccount.com'
+          service_account: '${{ env.SERVICE_ACCOUNT}}'
           token_format: 'access_token'
-      - name: Debug JWT Token
-        run: |-
-          curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.googleapis.com"
-          echo "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" | awk -F. '{print $2}' | base64 -d | jq .
       - name: 'Docker Auth'
-        uses: 'docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567' # docker/login-action@v3
+        uses: 'docker/login-action@v3'
         with:
           username: 'oauth2accesstoken'
           password: '${{ steps.auth.outputs.access_token }}'
@@ -69,6 +66,13 @@ jobs:
       id-token: 'write'
 
     steps:
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ env.SERVICE_ACCOUNT}}'
+          token_format: 'access_token'
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
         with:
