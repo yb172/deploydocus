@@ -11,7 +11,7 @@ COPY go.mod .
 RUN go mod download -x
 # Copy sources and run build
 ADD . .
-RUN go build -ldflags "-X main.Version=${version} main.BuildDate=${build_date}" -o server
+RUN go build -ldflags "-X main.Version=${version} -X main.BuildDate=${build_date}" -o server
 
 # Run container. Here we run app
 # We don't need anything additional to run the app
