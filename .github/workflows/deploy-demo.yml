@@ -1,0 +1,73 @@
+name: Deploy to demo on new release
+
+on:
+  release:
+    types: [published]
+
+env:
+  PROJECT_ID: 'windy-orb-218701'
+  REGION: 'us-central1'
+  DOCKER_REPO: 'deploydocus'
+  SERVICE: 'deploydocus-demo'
+
+jobs:
+  build:
+    environment: demo
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    outputs:
+      version: ${{ steps.generate-version.outputs.version }}
+      image_name: ${{ steps.generate-image-name.outputs.image_name }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: auth
+        name: Google Auth
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT }}'
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v3'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.REGION }}-docker.pkg.dev'
+      - name: Generate version
+        id: generate-version
+        run: echo "version=$(echo ${GITHUB_REF} | cut -c 11-)" >> $GITHUB_OUTPUT
+      - name: Generate image name
+        id: generate-image-name
+        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ steps.generate-version.outputs.version }}" >> $GITHUB_OUTPUT
+      - name: Build and Push Container
+        run: |-
+            docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=${{ steps.generate-version.outputs.version }} ./
+            docker push "${{ steps.generate-image-name.outputs.image_name }}"
+
+  deploy:
+    needs: build
+    environment: demo
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT}}'
+          token_format: 'access_token'
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: '${{ env.SERVICE }}'
+          region: '${{ env.REGION }}'
+          image: '${{ needs.build.outputs.image_name }}'
