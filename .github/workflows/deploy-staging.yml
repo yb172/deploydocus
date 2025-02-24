@@ -31,6 +31,9 @@ jobs:
       image_name: ${{ steps.generate-image-name.outputs.image_name }}
 
     steps:
+      - name: 'debug'
+        run: |2-
+          echo ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} ${{ secrets.SERVICE_ACCOUNT}}
       - name: 'Checkout'
         uses: 'actions/checkout@v4'
       - id: 'auth'
