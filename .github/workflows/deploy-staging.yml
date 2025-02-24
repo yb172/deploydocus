@@ -2,7 +2,7 @@
 # and deploy it on Cloud Run when a PR is merged into the "main"
 # branch.
 
-name: 'Build and deploy to staging'
+name: 'Deploy to staging on PR merge'
 
 on:
   pull_request:
@@ -16,12 +16,11 @@ env:
   REGION: 'us-central1'
   DOCKER_REPO: 'deploydocus'
   SERVICE: 'deploydocus-staging'
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/555983195874/locations/global/workloadIdentityPools/deploydocus/providers/deploydocus-provider'
-  SERVICE_ACCOUNT: 'deploydocus-github@windy-orb-218701.iam.gserviceaccount.com'
 
 jobs:
   build:
     if: github.event.pull_request.merged == true  # Ensures the PR was merged, not just closed
+    environment: staging
     runs-on: 'ubuntu-latest'
 
     permissions:
@@ -38,8 +37,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ env.SERVICE_ACCOUNT}}'
+          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT}}'
           token_format: 'access_token'
       - name: 'Docker Auth'
         uses: 'docker/login-action@v3'
@@ -73,8 +72,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ env.SERVICE_ACCOUNT}}'
+          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT}}'
           token_format: 'access_token'
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
