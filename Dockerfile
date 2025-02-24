@@ -3,6 +3,7 @@
 # on a heavy-weight golang image
 FROM golang:alpine AS build-go
 ARG version
+ARG build_date
 # Download deps (do it as a separate step to let Docker cache downloaded deps)
 RUN apk add git
 WORKDIR /src
@@ -10,7 +11,7 @@ COPY go.mod .
 RUN go mod download -x
 # Copy sources and run build
 ADD . .
-RUN go build -ldflags "-X main.Version=${version}" -o server
+RUN go build -ldflags "-X main.Version=${version} main.BuildDate=${build_date}" -o server
 
 # Run container. Here we run app
 # We don't need anything additional to run the app

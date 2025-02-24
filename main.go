@@ -9,17 +9,12 @@ import (
 	"github.com/common-nighthawk/go-figure"
 )
 
-var Version string
-
-func getVersion() string {
-	if Version == "" {
-		Version = "head"
-	}
-	return Version
-}
-
-var env string
-var port int
+var (
+	Version   string = "head"
+	BuildDate string = "-"
+	env       string
+	port      int
+)
 
 func init() {
 	flag.IntVar(&port, "port", 8080, "Port to run the server on")
@@ -27,13 +22,17 @@ func init() {
 	flag.Parse()
 }
 
+func stats() string {
+	return fmt.Sprintf("env: %s, v: %s, build date: %s\n", env, Version, BuildDate)
+}
+
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		figure.Write(w, figure.NewFigure("Deploydocus", "relief", false))
-		w.Write([]byte(fmt.Sprintf("\nenv: %s, v: %s\n", env, getVersion())))
+		w.Write([]byte(fmt.Sprintf("\n%s", stats())))
 	})
 
-	fmt.Printf("Starting 🦕 on port :%d, v: %s, env: %s\n", port, getVersion(), env)
+	fmt.Printf("Starting 🦕 on port :%d, %s\n", port, stats())
 	err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	if err != nil {
 		log.Fatal("Unable to start 🦕: ", err)
