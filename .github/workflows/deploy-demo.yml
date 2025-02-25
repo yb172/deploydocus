@@ -8,7 +8,8 @@ env:
   PROJECT_ID: 'windy-orb-218701'
   REGION: 'us-central1'
   DOCKER_REPO: 'deploydocus'
-  SERVICE: 'deploydocus-demo'
+  DOCKER_IMAGE_NAME: 'deploydocus-demo'
+  CLOUD_RUN_SERVICE: 'deploydocus-demo'
 
 jobs:
   build:
@@ -43,7 +44,7 @@ jobs:
         run: echo "version=$(echo ${GITHUB_REF} | cut -c 11-)" >> $GITHUB_OUTPUT
       - name: Generate image name
         id: generate-image-name
-        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ steps.generate-version.outputs.version }}" >> $GITHUB_OUTPUT
+        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.DOCKER_IMAGE_NAME }}:${{ steps.generate-version.outputs.version }}" >> $GITHUB_OUTPUT
       - name: Build and Push Container
         run: |-
             docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=${{ steps.generate-version.outputs.version }} ./
@@ -68,6 +69,6 @@ jobs:
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
-          service: '${{ env.SERVICE }}'
+          service: '${{ env.CLOUD_RUN_SERVICE }}'
           region: '${{ env.REGION }}'
           image: '${{ needs.build.outputs.image_name }}'

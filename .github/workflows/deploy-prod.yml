@@ -10,7 +10,9 @@ env:
   PROJECT_ID: 'windy-orb-218701'
   REGION: 'us-central1'
   DOCKER_REPO: 'deploydocus'
-  SERVICE: 'deploydocus'
+  DEMO_DOCKER_IMAGE_NAME: 'deploydocus-demo'
+  PROD_DOCKER_IMAGE_NAME: 'deploydocus'
+  CLOUD_RUN_SERVICE: 'deploydocus'
         
 jobs:
   retag:
@@ -37,10 +39,10 @@ jobs:
           registry: '${{ env.REGION }}-docker.pkg.dev'
       - name: Generate image name
         id: generate-image-name
-        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.SERVICE }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
+        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.DEMO_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
       - name: Generate image name
         id: generate-prod-image-name
-        run: echo "prod_image_name=${{ steps.generate-image-name.outputs.image_name }}-prod" >> $GITHUB_OUTPUT
+        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.PROD_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
       - name: Pull Image from Demo
         run: |
           docker pull ${{ steps.generate-image-name.outputs.image_name }}
@@ -68,6 +70,6 @@ jobs:
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
-          service: '${{ env.SERVICE }}'
+          service: '${{ env.CLOUD_RUN_SERVICE }}'
           region: '${{ env.REGION }}'
           image: '${{ needs.retag.outputs.prod_image_name }}'
