@@ -42,7 +42,7 @@ jobs:
         run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.DEMO_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
       - name: Generate image name
         id: generate-prod-image-name
-        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.PROD_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
+        run: echo "prod_image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.PROD_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
       - name: Pull Image from Demo
         run: |
           docker pull ${{ steps.generate-image-name.outputs.image_name }}
