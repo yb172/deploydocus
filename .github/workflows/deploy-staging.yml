@@ -20,7 +20,9 @@ env:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true  # Ensures the PR was merged, not just closed
+    if: |
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'deploy-to-staging')
     environment: staging
     runs-on: 'ubuntu-latest'
 
@@ -77,13 +79,13 @@ jobs:
           workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ secrets.SERVICE_ACCOUNT}}'
           token_format: 'access_token'
-      - name: 'Deploy to Cloud Run'
+      - id: 'deploy'
+        name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.CLOUD_RUN_SERVICE }}'
           region: '${{ env.REGION }}'
           image: '${{ needs.build.outputs.image_name }}'
-      # If required, use the Cloud Run URL output in later steps
       - name: 'Show output'
-        run: |2-
+        run: |-
           echo ${{ steps.deploy.outputs.url }}
