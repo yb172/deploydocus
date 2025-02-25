@@ -23,4 +23,4 @@ COPY --from=build-go /src/server /app/server
 # timezone 
 RUN apk add --no-cache tzdata
 # Start the server
-ENTRYPOINT ["sh", "-c", "./server start --env $ENV"]
+ENTRYPOINT ./server --env ${ENV}
