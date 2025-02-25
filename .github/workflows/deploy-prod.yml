@@ -22,7 +22,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     outputs:
-      prod_image_name: ${{ steps.generate-image-name.outputs.prod_image_name }}
+      prod_image_name: ${{ steps.generate-image-names.outputs.prod_image_name }}
     steps:
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
@@ -37,19 +37,18 @@ jobs:
           username: 'oauth2accesstoken'
           password: '${{ steps.auth.outputs.access_token }}'
           registry: '${{ env.REGION }}-docker.pkg.dev'
-      - name: Generate image name
-        id: generate-image-name
-        run: echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.DEMO_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
-      - name: Generate image name
-        id: generate-prod-image-name
-        run: echo "prod_image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.PROD_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
+      - name: Generate image names
+        id: generate-image-names
+        run: |
+          echo "image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.DEMO_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
+          echo "prod_image_name=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.DOCKER_REPO }}/${{ env.PROD_DOCKER_IMAGE_NAME }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
       - name: Pull Image from Demo
         run: |
-          docker pull ${{ steps.generate-image-name.outputs.image_name }}
+          docker pull ${{ steps.generate-image-names.outputs.image_name }}
       - name: Retag & Push to Production
         run: |
-          docker tag ${{ steps.generate-image-name.outputs.image_name }} ${{ steps.generate-image-name.outputs.prod_image_name }}
-          docker push ${{ steps.generate-image-name.outputs.prod_image_name }}
+          docker tag ${{ steps.generate-image-names.outputs.image_name }} ${{ steps.generate-image-names.outputs.prod_image_name }}
+          docker push ${{ steps.generate-image-names.outputs.prod_image_name }}
 
   deploy:
     needs: retag
