@@ -48,8 +48,8 @@ jobs:
           docker pull ${{ steps.generate-image-name.outputs.image_name }}
       - name: Retag & Push to Production
         run: |
-          docker tag ${{ steps.generate-image-name.outputs.image_name }} ${{ steps.generate-image-name.outputs.image_name }} ${{ steps.generate-image-name.outputs.prod_image_name }}
-          docker push ${{ steps.generate-image-name.outputs.image_name }} ${{ steps.generate-image-name.outputs.prod_image_name }}
+          docker tag ${{ steps.generate-image-name.outputs.image_name }} ${{ steps.generate-image-name.outputs.prod_image_name }}
+          docker push ${{ steps.generate-image-name.outputs.prod_image_name }}
 
   deploy:
     needs: retag
