@@ -19,7 +19,7 @@ In order for this thing to work, following things are needed to be configured on
      * `roles/run.admin`
  * Artifact registry: `deploydocus`
  * Cloud run
-   * `deploydocus-staging` (updated on each PR merge)
+   * `deploydocus-staging` (updated on each PR merge, if PR was labeled with 'deploy to staging')
    * `deploydocus-demo` (updated once new release is created)
    * `deploydocus` (updated when workflow that promotes demo image to prod is manually triggered and completed)
 
