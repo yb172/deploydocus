@@ -66,7 +66,8 @@ jobs:
           workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ secrets.SERVICE_ACCOUNT}}'
           token_format: 'access_token'
-      - name: 'Deploy to Cloud Run'
+      - id: 'deploy'
+        name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.CLOUD_RUN_SERVICE }}'
