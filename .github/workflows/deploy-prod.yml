@@ -16,6 +16,9 @@ jobs:
   retag:
     environment: demo
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     outputs:
       prod_image_name: ${{ steps.generate-image-name.outputs.prod_image_name }}
     steps:
