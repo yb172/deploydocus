@@ -49,6 +49,13 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Debug File Contents
         run: cat deploy-prod.txt || echo "deploy-prod.txt not found"
+      - name: Debug Extract Version
+        run: |
+          echo "First line of deploy-prod.txt:"
+          head -n 1 deploy-prod.txt
+      
+          echo "Checking field splitting with awk:"
+          head -n 1 deploy-prod.txt | awk -F', ' '{print $2}'
       - name: Generate image names
         id: generate-image-names
         run: |
