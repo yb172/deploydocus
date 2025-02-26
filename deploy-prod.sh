@@ -22,7 +22,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" >> deploy-prod.txt
 git checkout -b "$BRANCH_NAME"
 
 git add deploy-prod.txt
-echo 'git commit -m "push $VERSION to prod"'
-echo 'git push origin "$BRANCH_NAME"'
+git commit -m "push $VERSION to prod"
+git push origin "$BRANCH_NAME"
 
 echo "Merge this PR to push $VERSION to production: https://github.com/yb172/deploydocus/compare/main...$BRANCH_NAME"
