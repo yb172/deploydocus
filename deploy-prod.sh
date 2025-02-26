@@ -10,11 +10,8 @@ fi
 
 BRANCH_NAME="deploy-prod-$VERSION"
 
-# Check for staged changes in git
-if ! git diff --quiet --cached; then
-  echo "Error: There are staged changes in git. Commit or stash them before running this script."
-  exit 1
-fi
+# Sync to head (also checks that there are no staged files)
+git pull origin main
 
 # Append version to prod.txt
 echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" | cat - deploy-prod.txt > temp.txt && mv temp.txt deploy-prod.txt
@@ -22,7 +19,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" | cat - deploy-prod.txt > temp.txt
 git checkout -b "$BRANCH_NAME"
 
 git add deploy-prod.txt
-git commit -m "push $VERSION to prod"
+git commit -m "Deploy $VERSION to prod"
 git push origin "$BRANCH_NAME"
 
 echo "Merge this PR to push $VERSION to production: https://github.com/yb172/deploydocus/compare/main...$BRANCH_NAME"
