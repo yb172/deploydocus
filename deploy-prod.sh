@@ -21,7 +21,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" >> deploy-prod.txt
 
 git checkout -b "$BRANCH_NAME"
 
-git add prod.txt
+git add deploy-prod.txt
 echo 'git commit -m "push $VERSION to prod"'
 echo 'git push origin "$BRANCH_NAME"'
 
