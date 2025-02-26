@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/yb172/deploydocus/compare/v1.1.0...v1.1.1) (2025-02-26)
+
+
+### Bug Fixes
+
+* Fix step name in deploy-demo.yml ([f529d9a](https://github.com/yb172/deploydocus/commit/f529d9af6e0aa65f5dff44436008d602c5d8c580))
+
 ## [1.1.0](https://github.com/yb172/deploydocus/compare/v1.0.0...v1.1.0) (2025-02-26)
 
 
