@@ -51,4 +51,4 @@ jobs:
         with:
           service: '${{ env.CLOUD_RUN_SERVICE }}'
           region: '${{ env.REGION }}'
-          image: '${{ steps.generate-version.outputs.image_name }}'
+          image: '${{ steps.generate-image-name.outputs.image_name }}'
