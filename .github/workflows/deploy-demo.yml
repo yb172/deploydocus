@@ -12,15 +12,11 @@ env:
   CLOUD_RUN_SERVICE: 'deploydocus-demo'
 
 jobs:
-  build:
+  build-and-deploy:
     environment: demo
     permissions:
       contents: 'read'
       id-token: 'write'
-    outputs:
-      version: ${{ steps.generate-version.outputs.version }}
-      image_name: ${{ steps.generate-image-name.outputs.image_name }}
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -49,27 +45,10 @@ jobs:
         run: |-
             docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=${{ steps.generate-version.outputs.version }} ./
             docker push "${{ steps.generate-image-name.outputs.image_name }}"
-
-  deploy:
-    needs: build
-    environment: demo
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
-    runs-on: ubuntu-latest
-    steps:
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ secrets.SERVICE_ACCOUNT}}'
-          token_format: 'access_token'
       - id: 'deploy'
         name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.CLOUD_RUN_SERVICE }}'
           region: '${{ env.REGION }}'
-          image: '${{ needs.build.outputs.image_name }}'
+          image: '${{ steps.generate-version.outputs.image_name }}'
