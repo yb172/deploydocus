@@ -2,8 +2,9 @@
 
 The goal of this repository is to showcase an easy deployment pipeline that just works.
 
-The pipeline has following component:
- * Once PR is merged, docker image is built and pushed to staging Google Cloud Run instance [https://deploydocus-555983195874.us-central1.run.app](https://deploydocus-555983195874.us-central1.run.app). This workflow is defined in [deploy-staging.yml](https://github.com/yb172/deploydocus/blob/main/.github/workflows/deploy-staging.yml)
+ * Developers work as usual (the only thing: commits must follow [Conventional commits spec](https://www.conventionalcommits.org/en/v1.0.0/))
+ * [`staging.deploydocus.yb172.dev`](http://staging.deploydocus.yb172.dev) is updated with image built from head every time merged PR has label "deploy to staging"
+ * [`demo.deploydocus.yb172.dev`](http://demo.deploydocus.yb172.dev) is updated with image built from head every time release PR auto-created by [release please](https://github.com/googleapis/release-please-action) is merged
 
 The app is a simple server app that returns what version it is running, the version is passed as a build flag when building docker image
 
