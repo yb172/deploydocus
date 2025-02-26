@@ -68,7 +68,7 @@ jobs:
         with:
           service: '${{ env.CLOUD_RUN_SERVICE }}'
           region: '${{ env.REGION }}'
-          image: '${{ needs.build.outputs.image_name }}'
+          image: '${{ steps.generate-image-name.outputs.image_name }}'
       - name: 'Show output'
         run: |-
           echo ${{ steps.deploy.outputs.url }}
