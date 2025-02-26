@@ -17,7 +17,7 @@ if ! git diff --quiet --cached; then
 fi
 
 # Append version to prod.txt
-echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" >> deploy-prod.txt
+echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" | cat - deploy-prod.txt > temp.txt && mv temp.txt deploy-prod.txt
 
 git checkout -b "$BRANCH_NAME"
 
