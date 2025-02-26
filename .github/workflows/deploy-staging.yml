@@ -19,7 +19,7 @@ env:
   CLOUD_RUN_SERVICE: 'deploydocus-staging'
 
 jobs:
-  build:
+  build-and-deploy:
     if: |
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'deploy to staging')
@@ -62,23 +62,6 @@ jobs:
         run: |-
           docker build -t "${{ steps.generate-image-name.outputs.image_name }}" --build-arg build_date=$(date +%Y-%m-%d) --build-arg version=${{ steps.generate-version.outputs.version }} ./
           docker push "${{ steps.generate-image-name.outputs.image_name }}"
-  
-  deploy:
-    needs: build
-    environment: staging
-    runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
-    steps:
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ secrets.SERVICE_ACCOUNT}}'
-          token_format: 'access_token'
       - id: 'deploy'
         name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
