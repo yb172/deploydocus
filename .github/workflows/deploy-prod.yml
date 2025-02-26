@@ -41,7 +41,7 @@ jobs:
           registry: '${{ env.REGION }}-docker.pkg.dev'
       - id: extract-version
         name: Extract version from branch name
-        run: echo "version=${GITHUB_HEAD_REF#deploy-prod-}" >> $GITHUB_ENV
+        run: echo "version=${GITHUB_REF_NAME#deploy-prod-}" >> $GITHUB_ENV
       - name: Generate image names
         id: generate-image-names
         run: |
