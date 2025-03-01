@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/yb172/deploydocus/compare/v1.4.1...v1.5.0) (2025-03-01)
+
+
+### Features
+
+* add cherrypick command ([bd4f5da](https://github.com/yb172/deploydocus/commit/bd4f5dab5b4b71badf63c189afabee0e12b4a701))
+* update cherrypick branch names ([74ba0b4](https://github.com/yb172/deploydocus/commit/74ba0b44337ae8f3e44b243242b4dbd846465808))
+
 ## [1.4.1](https://github.com/yb172/deploydocus/compare/v1.4.0...v1.4.1) (2025-03-01)
 
 
