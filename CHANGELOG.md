@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/yb172/deploydocus/compare/v1.1.1...v1.2.0) (2025-03-01)
+
+
+### Features
+
+* add commit linter ([31542a9](https://github.com/yb172/deploydocus/commit/31542a907ecc691b67ddd0a02c0a5a9e89c34785))
+* Update README.md with info about prod env ([04cf66b](https://github.com/yb172/deploydocus/commit/04cf66be64866ea2a0390c594f93cdf05860c0a9))
+
 ## [1.1.1](https://github.com/yb172/deploydocus/compare/v1.1.0...v1.1.1) (2025-02-26)
 
 
