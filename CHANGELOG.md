@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/yb172/deploydocus/compare/v1.3.1...v1.3.2) (2025-03-01)
+
+
+### Bug Fixes
+
+* add comment ([c27f633](https://github.com/yb172/deploydocus/commit/c27f63379262347e77a64f786b553a362f059bcf))
+
 ## [1.3.1](https://github.com/yb172/deploydocus/compare/v1.3.0...v1.3.1) (2025-03-01)
 
 
