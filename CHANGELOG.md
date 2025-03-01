@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/yb172/deploydocus/compare/v1.5.0...v1.5.1) (2025-03-01)
+
+
+### Bug Fixes
+
+* the fix ([d688659](https://github.com/yb172/deploydocus/commit/d6886596f8a9a0d9f6fa0c0b4a636d839ad3906f))
+
 ## [1.5.0](https://github.com/yb172/deploydocus/compare/v1.4.1...v1.5.0) (2025-03-01)
 
 
