@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/yb172/deploydocus/compare/v1.2.0...v1.3.0) (2025-03-01)
+
+
+### Features
+
+* add cherrypick section to readme ([5d2f7f5](https://github.com/yb172/deploydocus/commit/5d2f7f503d7b52e4bb7f61e026d0c7b56728f5ba))
+* implement bug ([124d572](https://github.com/yb172/deploydocus/commit/124d572eb3f8e5ce34b9765bbeadf71ee77a98cc))
+* update branch name from 'release' to 'cherrypick' ([d97a06c](https://github.com/yb172/deploydocus/commit/d97a06cbf1587aac58ca6384cef7fb4896e4cfbc))
+
 ## [1.2.0](https://github.com/yb172/deploydocus/compare/v1.1.1...v1.2.0) (2025-03-01)
 
 
