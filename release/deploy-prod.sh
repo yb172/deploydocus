@@ -14,11 +14,11 @@ BRANCH_NAME="deploy-prod-$VERSION"
 git pull origin main
 
 # Append version to prod.txt
-echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" | cat - deploy-prod.txt > temp.txt && mv temp.txt deploy-prod.txt
+echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" | cat - release/deploy-prod.txt > temp.txt && mv temp.txt release/deploy-prod.txt
 
 git checkout -b "$BRANCH_NAME"
 
-git add deploy-prod.txt
+git add release/deploy-prod.txt
 git commit -m "chore: deploy $VERSION to prod"
 git push origin "$BRANCH_NAME"
 
