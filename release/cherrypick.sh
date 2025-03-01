@@ -14,14 +14,14 @@ git fetch --tags
 git checkout main
 git pull origin main
 
-# Create and checkout the fixes branch
-git checkout -b cherrypick-draft/$VERSION $VERSION
+# Create and checkout the fix branch with code as of <version>
+git checkout -b cherrypick-draft-$VERSION $VERSION
 
 # Create the cherrypick branch and push it to origin
-git checkout -b cherrypick/$VERSION
+git checkout -b release-cherrypick-$VERSION
+git push -u origin release-cherrypick-$VERSION
 
-git push -u origin cherrypick/$VERSION
+# Switch back to fix branch to work on fix
+git checkout cherrypick-draft-$VERSION
 
-git checkout cherrypick-draft/$VERSION
-
-echo "Pull request URL: https://github.com/yb172/deploydocus/compare/cherrypick/$VERSION...cherrypick-draft/$VERSION"
+echo "Create cherrypick PR: https://github.com/yb172/deploydocus/compare/release-cherrypick-$VERSION...cherrypick-draft-$VERSION"
