@@ -5,7 +5,7 @@ The goal of this repository is to showcase an easy deployment pipeline that just
  * Developers work as usual (the only thing: commits must follow [Conventional commits spec](https://www.conventionalcommits.org/en/v1.0.0/))
  * [`staging.deploydocus.yb172.dev`](http://staging.deploydocus.yb172.dev) is updated with image built from head every time merged PR has label "deploy to staging"
  * [`demo.deploydocus.yb172.dev`](http://demo.deploydocus.yb172.dev) is updated with image built from head every time release PR auto-created by [release please](https://github.com/googleapis/release-please-action) is merged
- * [`deploydocus.yb172.dev`](http://deploydocus.yb172.dev) is updated with `<version>` when `./deploy-prod <version>` command is executed and created PR is merged
+ * [`deploydocus.yb172.dev`](http://deploydocus.yb172.dev) is updated with `<version>` when `./release/deploy-prod.sh <version>` command is executed and created PR is merged
 
 The app is a simple server app that returns what version it is running, the version is passed as a build flag when building docker image
 
@@ -22,16 +22,20 @@ env: <env>, v: v1.1.1, build date: <date>
 
 ## Cherrypicks
 
-Oh no, there is an issue in production and we're halfway in migrating forms validation which requires extensive testing. No worries, there is a cherrypick process just for that kind of situations.
-
-First thing we need to do is to create a fix:
+Oh no, there is an issue in production and we're halfway in migrating forms validation which requires extensive testing. No worries, there is a cherrypick process just for that kind of situations:
 
 ```sh
-git fetch --tags
-git checkout -b release/fix <version>
+./release/cherrypick.sh <version>
 ```
 
-This will set code to the `<version>` (and `<version>` must be one that is currently running in prod)
+This command will create a new branch and checkout code as of `<version>`.
+
+Then you do the fix, commit it with `fix:` prefix (to bump patch only), and push the `cherrypick-draft/<version>`. Then open PR to merge the draft into `cherrypick/<version>` branch. Once PR is merged, you should see release-please create a release PR. Once this PR is merged a new release of `<version major>.<version minor>.<version patch+1>` will be created and deployed to demo environment.
+
+> [!IMPORTANT]  
+> PR must be opened to merge into `cherrypick/<version>`, not `main`
+
+Once tested, it could be deployed to production using `./release/deploy-prod.sh <vesion with fix>`
 
 ## Google cloud resources
 
