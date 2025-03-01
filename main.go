@@ -78,8 +78,6 @@ func main() {
 		}
 	})
 
-	// Update
-
 	fmt.Printf("Starting 🦕 on port :%d, %s\n", port, stats())
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	if err != nil {
