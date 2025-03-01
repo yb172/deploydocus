@@ -33,6 +33,21 @@ const pageTmpl = `
 		<meta name="color-scheme" content="dark">
 	    <meta charset="UTF-8">
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦕</text></svg>">
+		<style>
+			body {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				margin: 0;
+				text-align: center;
+				font-family: monospace;
+			}
+			pre {
+				white-space: pre-wrap;
+			}
+		</style>
 	</head>
 	<body>
 		<pre style="word-wrap: break-word;">{{.Logo}}</pre>
