@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/yb172/deploydocus/compare/v1.4.0...v1.4.1) (2025-03-01)
+
+
+### Bug Fixes
+
+* fix bug on main page ([3e881ef](https://github.com/yb172/deploydocus/commit/3e881efe2e4b4db88e2900f2887a5f271b19cb49))
+* tweak cherrypick config ([f21ef3b](https://github.com/yb172/deploydocus/commit/f21ef3bcac95ca584431971c2dc431199cdc94fd))
+* update cherrypick config ([56103d4](https://github.com/yb172/deploydocus/commit/56103d4bde609a85bef249877a8e6aff3f0d85b9))
+
 ## [1.4.0](https://github.com/yb172/deploydocus/compare/v1.3.0...v1.4.0) (2025-03-01)
 
 
