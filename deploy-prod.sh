@@ -19,7 +19,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S'), $VERSION" | cat - deploy-prod.txt > temp.txt
 git checkout -b "$BRANCH_NAME"
 
 git add deploy-prod.txt
-git commit -m "Deploy $VERSION to prod"
+git commit -m "chore: deploy $VERSION to prod"
 git push origin "$BRANCH_NAME"
 
 echo "Merge this PR to push $VERSION to production: https://github.com/yb172/deploydocus/compare/main...$BRANCH_NAME"
