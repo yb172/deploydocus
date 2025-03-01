@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/yb172/deploydocus/compare/v1.5.0...v1.6.0) (2025-03-01)
+
+
+### Features
+
+* meaningless change ([fa86e3a](https://github.com/yb172/deploydocus/commit/fa86e3ac00873c8a41e8ad4ac529fb6f7e835efc))
+
 ## [1.5.0](https://github.com/yb172/deploydocus/compare/v1.4.1...v1.5.0) (2025-03-01)
 
 
