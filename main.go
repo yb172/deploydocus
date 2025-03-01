@@ -37,7 +37,6 @@ const pageTmpl = `
 	<body>
 		<pre style="word-wrap: break-word;">{{.Logo}}</pre>
 		<pre style="word-wrap: break-word; white-space: pre-wrap;">{{.Stats}}</pre>
-		Oh no, it's a bug!
 	</body>
 </html>`
 
