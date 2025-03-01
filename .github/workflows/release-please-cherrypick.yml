@@ -3,7 +3,7 @@ name: Create a cherrypick Demo release
 on:
   push:
     branches:
-      - release/*
+      - cherrypick/*
 
 permissions:
   contents: write
