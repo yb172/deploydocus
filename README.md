@@ -20,6 +20,19 @@ ________________________________________________________________________________
 env: <env>, v: v1.1.1, build date: <date>
 ```
 
+## Cherrypicks
+
+Oh no, there is an issue in production and we're halfway in migrating forms validation which requires extensive testing. No worries, there is a cherrypick process just for that kind of situations.
+
+First thing we need to do is to create a fix:
+
+```sh
+git fetch --tags
+git checkout -b release/fix <version>
+```
+
+This will set code to the `<version>` (and `<version>` must be one that is currently running in prod)
+
 ## Google cloud resources
 
 In order for this thing to work, following things are needed to be configured on Google cloud:
