@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/yb172/deploydocus/compare/v1.3.0...v1.4.0) (2025-03-01)
+
+
+### Features
+
+* center the content ([d114e94](https://github.com/yb172/deploydocus/commit/d114e942bdec9e0b29768eff8de76ac79ed07e1a))
+
 ## [1.3.0](https://github.com/yb172/deploydocus/compare/v1.2.0...v1.3.0) (2025-03-01)
 
 
