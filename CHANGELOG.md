@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/yb172/deploydocus/compare/v1.6.0...v1.6.1) (2025-03-01)
+
+
+### Bug Fixes
+
+* give execute permission to release/cherrypick.sh ([0535611](https://github.com/yb172/deploydocus/commit/053561117d1979d5f9c787f652ddc382fb02b338))
+
 ## [1.6.0](https://github.com/yb172/deploydocus/compare/v1.5.0...v1.6.0) (2025-03-01)
 
 
