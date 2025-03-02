@@ -1,4 +1,4 @@
-name: Create a Demo release
+name: Regular release
 
 on:
   push:

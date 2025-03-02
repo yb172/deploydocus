@@ -1,4 +1,4 @@
-name: Create a cherrypick Demo release
+name: Cherrypick release
 
 on:
   push:
