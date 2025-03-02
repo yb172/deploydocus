@@ -14,6 +14,21 @@
 
 * meaningless change ([fa86e3a](https://github.com/yb172/deploydocus/commit/fa86e3ac00873c8a41e8ad4ac529fb6f7e835efc))
 
+## [1.5.2](https://github.com/yb172/deploydocus/compare/v1.5.1...v1.5.2) (2025-03-01)
+
+
+### Bug Fixes
+
+* undo update ([3890042](https://github.com/yb172/deploydocus/commit/389004215838d4b2f86bc88ff167b66ccd58677e))
+
+## [1.5.1](https://github.com/yb172/deploydocus/compare/v1.5.0...v1.5.1) (2025-03-01)
+
+
+### Bug Fixes
+
+* the fix ([d688659](https://github.com/yb172/deploydocus/commit/d6886596f8a9a0d9f6fa0c0b4a636d839ad3906f))
+
+
 ## [1.5.0](https://github.com/yb172/deploydocus/compare/v1.4.1...v1.5.0) (2025-03-01)
 
 
