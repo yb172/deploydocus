@@ -30,12 +30,18 @@ Oh no, there is an issue in production and we're halfway in migrating forms vali
 
 This command will create a new branch and checkout code as of `<version>`.
 
-Then you do the fix, commit it with `fix:` prefix (to bump patch only), and push the `cherrypick-draft/<version>`. Then open PR to merge the draft into `cherrypick/<version>` branch. Once PR is merged, you should see release-please create a release PR. Once this PR is merged a new release of `<version major>.<version minor>.<version patch+1>` will be created and deployed to demo environment.
+ * Do the fix, commit it with `fix:` prefix (to bump patch only), and push the `cherrypick-draft-<version>`.
+
+ * Open PR to merge the draft into `release-cherrypick-<version>` branch (use link provided in the output of `cherrypick.sh` command).
+ * Once PR is merged, you should see release-please create a release PR. Review and merge it.
+ * Once this PR is merged a new release of `<version major>.<version minor>.<version patch+1>` will be created and deployed to demo environment.
 
 > [!IMPORTANT]  
-> PR must be opened to merge into `cherrypick/<version>`, not `main`
+> PR must be opened to merge into `release-cherrypick-<version>`, not `main`
 
-Once tested, it could be deployed to production using `./release/deploy-prod.sh <vesion with fix>`
+ * Once tested, it could be deployed to production using `./release/deploy-prod.sh <vesion with fix>`
+ * Create a PR to merge fixes and `CHANGELOG` updates to `main` by opening PR from `release-cherrypick-<version>` to `main` (use link provided in the output of `cherrypick.sh` command)
+ * Done!
 
 ## Google cloud resources
 

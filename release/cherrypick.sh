@@ -24,4 +24,12 @@ git push -u origin release-cherrypick-$VERSION
 # Switch back to fix branch to work on fix
 git checkout cherrypick-draft-$VERSION
 
-echo "Create cherrypick PR: https://github.com/yb172/deploydocus/compare/release-cherrypick-$VERSION...cherrypick-draft-$VERSION"
+echo "---"
+echo "Please implement the fix, commit it and push to origin:"
+echo " * git push origin cherrypick-draft-$VERSION"
+echo "Then create a cherrypick PR:"
+echo " * https://github.com/yb172/deploydocus/compare/release-cherrypick-$VERSION...cherrypick-draft-$VERSION"
+echo "This will let release-please to create a release PR. Review and merge it to update demo env"
+echo "Once PRs are merged, create another PR to merge fix (and update the changelog):"
+echo " * https://github.com/yb172/deploydocus/compare/main...release-cherrypick-$VERSION"
+
