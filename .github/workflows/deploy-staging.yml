@@ -22,7 +22,7 @@ jobs:
   build-and-deploy:
     if: |
       github.event.pull_request.merged == true &&
-      !contains(github.event.pull_request.labels.*.name, 'deploy to staging bla')
+      !contains(github.event.pull_request.labels.*.name, 'skip deploy')
     environment: staging
     runs-on: 'ubuntu-latest'
 
