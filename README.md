@@ -43,6 +43,14 @@ This command will create a new branch and checkout code as of `<version>`.
  * Create a PR to merge fixes and `CHANGELOG` updates to `main` by opening PR from `release-cherrypick-<version>` to `main` (use link provided in the output of `cherrypick.sh` command)
  * Done!
 
+## GitHub config
+
+For this setup to work you need to create Personal Access Token (PAT) and save it as a repository secret named `RELEASE_PLEASE_TOKEN` (used in `release-please*.yml` configs).
+
+Also `staging`, `demo` and `prod` environments are needed with `WORKLOAD_IDENTITY_PROVIDER` and `SERVICE_ACCOUNT` secrets
+
+It's also nice to create `release-cherrypick-*` protection rule to require a pull request before merging with approvals. That way only approved PRs will be merged to produce docker image and go to demo env.
+
 ## Google cloud resources
 
 In order for this thing to work, following things are needed to be configured on Google cloud:
