@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/yb172/deploydocus/compare/v1.6.1...v1.7.0) (2025-03-02)
+
+
+### Features
+
+* add cherrypick instructions to merge back into main ([6ad6dd8](https://github.com/yb172/deploydocus/commit/6ad6dd82d2b1d78bde68f3a1e9b78f5972f833f5))
+
 ## [1.6.1](https://github.com/yb172/deploydocus/compare/v1.6.0...v1.6.1) (2025-03-01)
 
 
